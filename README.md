@@ -4,18 +4,17 @@ A research framework for simulating and defending against LLM-powered cyberattac
 
 This repo includes everything you need to:
 
-- Simulate jailbreak attacks from in-the-wild datasets
-- Deploy honeypot services that inject misleading prompts into LLM-driven agents
-- Log and evaluate the effectiveness of your deception
-- Fine-tune small models like Mistral-7B using PEFT to resist prompt attacks
-- Generate publishable results for venues like IEEE S&P
+- Simulate jailbreak attacks from in-the-wild datasets  
+- Deploy honeypot services that inject misleading prompts into LLM-driven agents  
+- Log and evaluate the effectiveness of your deception  
+- Fine-tune small models like Mistral-7B using PEFT to resist prompt attacks  
+- Generate publishable results for venues like IEEE S&P  
 
 ---
 
 ## 📦 Project Structure
 
 ```bash
-
 LLM-Honeypots/
 ├── README.md
 ├── requirements.txt
@@ -38,65 +37,89 @@ LLM-Honeypots/
 │   └── config.json
 └── colab/
     └── WildJailbreak_Testbench.ipynb
+```
 
+---
 
-✅ What This Gives You:
-Tool	What it Does
-honeypot_server.py	Simulates vulnerable service (e.g. fake FTP, API)
-prompt_injection.py	Injects deception prompts dynamically
-wildjailbreak_loader.py	Loads test prompts from AllenAI's dataset
-attack_agent.py	GPT-powered attacker simulating real threats
-gpt4_judge.py	Automated GPT-4 evaluation of whether injection worked
-train_mistral_peft.py	Fine-tune Mistral with LoRA against adversarial prompts
-analyze_logs.ipynb	Generate charts for SDR, CCS, stealth metrics
+## ✅ What This Gives You
 
-How It Works
-🔥 Honeypot Services (honeypot/)
-Simulate fake FTP, API, or shell interfaces
+| Tool | What it Does |
+|------|--------------|
+| `honeypot_server.py` | Simulates a vulnerable service (e.g., fake FTP, API) |
+| `prompt_injection.py` | Injects deception prompts dynamically |
+| `wildjailbreak_loader.py` | Loads test prompts from AllenAI's WildJailbreak dataset |
+| `attack_agent.py` | GPT-powered attacker simulating real threats |
+| `gpt4_judge.py` | Automated GPT-4 evaluation of whether injection worked |
+| `train_mistral_peft.py` | Fine-tunes Mistral with LoRA against adversarial prompts |
+| `analyze_logs.ipynb` | Generates charts for SDR, CCS, and Stealthiness metrics |
 
-Inject misleading or destructive prompts
+---
 
-Confuse, crash, or redirect LLM-based attackers
+## 🔍 How It Works
 
-🧬 Datasets (datasets/)
-wildjailbreak_loader.py: Pulls from HuggingFace's allenai/wildjailbreak
+### 🔥 Honeypot Services (`honeypot/`)
+- Simulates fake FTP, API, or shell interfaces  
+- Injects misleading or destructive prompts  
+- Confuses, crashes, or redirects LLM-based attackers  
 
-jailbreakhub_loader.py: Loads 1,400+ real jailbreaks from Reddit and the web
+### 🧬 Datasets (`datasets/`)
+- `wildjailbreak_loader.py`: Pulls prompts from HuggingFace's `allenai/wildjailbreak`  
+- `jailbreakhub_loader.py`: Loads 1,400+ real jailbreaks from Reddit and other sources  
 
-🤖 Simulation (simulation/)
-attack_agent.py: Simulates attacker LLM agents using GPT-4
+### 🤖 Simulation (`simulation/`)
+- `attack_agent.py`: Simulates attacker LLM agents using GPT-4  
+- `batch_attack_runner.py`: Sends 100s of jailbreaks through the honeypot system  
+- `gpt4_judge.py`: Uses GPT-4 to rate success/failure/confusion levels  
 
-batch_attack_runner.py: Sends 100s of jailbreaks to the honeypot
+### 📊 Evaluation (`evaluation/`)
+- Logs all prompts and responses  
+- Analyzes:
+  - SDR (Success Disruption Rate)  
+  - CCS (Command Confusion Score)  
+  - Stealthiness Index  
 
-gpt4_judge.py: Uses GPT-4 to rate success/failure/confusion levels
+### 🏋️ Fine-tuning (`fine_tuning/`)
+- `train_mistral_peft.py`: Fine-tunes Mistral-7B on adversarial jailbreaks using PEFT (LoRA)  
+- `data_preparation.py`: Formats dataset for instruction tuning  
 
-📊 Evaluation (evaluation/)
-Log all prompts/responses
+---
 
-Analyze SDR (Success Disruption Rate), CCS (Command Confusion Score), and Stealthiness
+## 💻 Colab Demo
 
-🏋️ Fine-tuning (fine_tuning/)
-train_mistral_peft.py: Fine-tune Mistral-7B on adversarial jailbreaks with LoRA
+Run `colab/WildJailbreak_Testbench.ipynb` in Google Colab to simulate attacks and evaluate the LLM-Honeypot effectiveness in real time.
 
-data_preparation.py: Format input/output pairs from WildJailbreak
+> 📎 [Open in Colab](https://colab.research.google.com/)
 
-💻 Colab Demo
-Run colab/WildJailbreak_Testbench.ipynb in Google Colab to simulate attacks and see LLM-Honeypot effectiveness live.
+---
 
-Open in Colab
+## 📈 Example Research Metrics
 
-📈 Example Research Metrics
-Metric	Description
-SDR (Success Disruption Rate)	% of jailbreaks that failed due to prompt injection
-CCS (Command Confusion Score)	1–5 rating of how nonsensical or incorrect the attacker response was
-Stealthiness Index	How likely was the injected prompt to go unnoticed
-🧠 Citations & Datasets
-This project uses and builds upon:
+| Metric | Description |
+|--------|-------------|
+| **SDR** (Success Disruption Rate) | % of jailbreaks that failed due to prompt injection |
+| **CCS** (Command Confusion Score) | 1–5 rating of how nonsensical or incorrect the attacker response was |
+| **Stealthiness Index** | Likelihood that the injection went undetected by the LLM |
 
-WildJailbreak Dataset (AllenAI)
+---
 
-JailbreakHub
+## 🧠 Citations & Datasets
 
-Mistral-7B
+This project builds on the following:
 
-Please cite the relevant papers if you publish from this work.
+- [WildJailbreak Dataset](https://huggingface.co/datasets/allenai/wildjailbreak) by AllenAI  
+- [JailbreakHub](https://github.com/verazuo/jailbreak_llms) collection of adversarial prompts  
+- [Mistral-7B](https://huggingface.co/mistralai/Mistral-7B-v0.1) open-source LLM  
+
+If you publish from this repo, please cite the corresponding papers.
+
+---
+
+## 🤝 Contributions
+
+Want to contribute or collaborate? PRs and issues are welcome.
+
+---
+
+## 📜 License
+
+MIT License – use it, publish with it, and help build safer AI defenses.
