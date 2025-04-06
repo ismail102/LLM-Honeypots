@@ -1,0 +1,1 @@
+# Logging system for honeypot responses
